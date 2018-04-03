@@ -80,6 +80,7 @@ if [ $b = "2" ];then
 	echo "/home/"$USER"/.initdev/" >> ~/.bashrc
 	echo 'alias initdev= "bash /home/"$USER"/.initdev/main.c" ' >> ~/.bashrc
 	source ~/.bashrc
+	echo "installation achevé avec succès "
 	else
 	if [ -e .zshrc ]; then
    	PATH="$PATH:/home/"$USER"/.initdev/"
