@@ -82,10 +82,11 @@ if [ $b = "2" ];then
 	source ~/.bashrc
 	else
 	if [ -e .zshrc ]; then
-
+   	PATH="$PATH:/home/"$USER"/.initdev/"
+	export PATH 
 	else
 	fi
 	fi
 else 
-echo " L'installation 
+echo " Un problème est survenu durant l'installation d'initdev , veuillez relancez le progrramme d'installation "
 fi
