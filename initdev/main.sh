@@ -176,7 +176,9 @@ if [ $# -eq 0 ];then  #test si le nombre d'arguments est égal à 0 , on retourn
 						fi
 						else
 						echo "Uknown arguments, please check the help : initdev –help" ;
-						rmdir $1
+						if [ -d $1 ]; then
+						rm -r $1
+						fi
 					fi
 					echo  $arg2 $arg3
 		elif [ $# -eq 4 ] ; then #test si le nombre d'arguments est égal à 4 , on garde toujours le meme ordre nom > langage >licence >-git dans l'algorithme sans qu'on oblige l'utilisateur a respecter l'ordre ,arg2: represente le langage , arg3: la licence , arg4: -git
@@ -224,6 +226,7 @@ if [ $# -eq 0 ];then  #test si le nombre d'arguments est égal à 0 , on retourn
 			mv "$1"/beamer.tex "$1"/Main.tex
 			else
 			echo "You must set project type, please check the help : initdev -help";
+			
 		fi
 			if [ "$arg3" = "-GPL" ];then
 				cp /home/"$USER"/.initdev/licenses/GPL "$1"/
@@ -233,7 +236,7 @@ if [ $# -eq 0 ];then  #test si le nombre d'arguments est égal à 0 , on retourn
 					cp /home/"$USER"/.initdev/licenses/MIT "$1"/
 					mv "$1"/MIT "$1"/LICENSE
 					touch "$1"/Makefile ;
-				else "You must set license type, please check the help : initdev -help"
+				else "unknown license type, project set to be without specified license ,check the help for more infos  : initdev -help" 
 			fi
 			if [ "$arg4" = "-git" ] ;then
 
@@ -274,7 +277,9 @@ if [ $# -eq 0 ];then  #test si le nombre d'arguments est égal à 0 , on retourn
 						else
 						echo "Uknown arguments, please check the help : initdev –help" ;
 						echo "Vous avez mis 4 arguments l'un d'eux doit contenir au moins -git , voir init -help pour plus d'informations " ;
-						rmdir $1
+						if [ -d $1 ]; then
+							rm -r $1
+						fi
 			fi
 					
 		else 
@@ -283,7 +288,11 @@ if [ $# -eq 0 ];then  #test si le nombre d'arguments est égal à 0 , on retourn
 		
 		fi 
 else
+if [ $# -eq 0 ];then
+	echo "Expected arguments, please check the help : initdev –help" 
+else
 echo "trops d'arguments en entré , maximum 4 voir: initdev -help ou initdev -syntax"
+fi
 fi
 if [ $# -gt 1 ];then
 if [ "$1" = "-help" ] || [ "$1" = "-Name" ] || [ "$1" = "-args" ] || [ "$1" = "-author" ] || [ "$1" = "-Syntax" ];then
@@ -293,3 +302,4 @@ fi
 			
 	
  
+
