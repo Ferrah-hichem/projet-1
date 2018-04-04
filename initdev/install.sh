@@ -3,7 +3,7 @@ b="1"
 chemin=$PWD
 cheminp=$PWD
 cd /home/"$USER"/
-if [ -e .initdev ]; then 
+if [ -e .initdev ]; then #si le dossier .inidev existe deja on le renomme pour pouvoir installer notre application .initdev
 	echo " le dossier initdev existe deja "
 	n=2
 	while [ -e .initdev"$n" ]
@@ -18,7 +18,7 @@ if [ -e .initdev ]; then
 fi		 
 echo " preparation de l'installation de la commande initdev..."
 mkdir /home/"$USER"/.initdev
-while [ $b = "1" ]
+while [ $b = "1" ] #on teste si nos ressources existe dans le repertoire ou install.sh est lancé sinon on demande le chemin des ressources ( voir else suivant)
 	do
 	cd $chemin
 	if [ -d gitignores ] && [ -d bin ] && [ -d sources ] && [ -d licenses ] && [ -d makefiles ];then
@@ -29,20 +29,19 @@ while [ $b = "1" ]
 		cp licenses /home/"$USER"/.initdev/Licences
 		cp makefiles /home/"$USER"/.initdev/Makefiles
 		b="2"
-		else
+		else #ici on demande le chemin des ressources si on a pas trouver dans le chemin par defaut 
 		echo "Erreur : Des repertoires ou des fichiers introuvables veuillez indiquer le repertoire dans lequel les fichiers d'installations de la commande initdev ce trouve , exemple /home/user/download/initdev/
 entrer un chemin (entrer 0 pour arreter l'installation ) :"
 		read chemin
-		echo "$chemin"
 		if [ $chemin = "0" ]; then
 			rmdir /home/"$USER"/.initdev
 			b="0"
 			else
-			cd "$chemin"
+			cd "$cheminp"
 		fi
 	fi
 done
-if [ $b = "2" ];then
+if [ $b = "2" ];then # ici on teste si il n y a pas eu de problèmes lors de la copie des ressources  
 	echo " verification des fichiers..."
 	cd /home/"$USER"/.initdev/
 	cd gitignores/
@@ -74,20 +73,23 @@ fi
 if [ $b = "2" ];then
 	
 	cd /home/"$USER"/
-	if [ -e .bashrc ]; then
-	PATH="$PATH:/home/"$USER"/.initdev/"
-	export PATH 
-	echo "/home/"$USER"/.initdev/" >> ~/.bashrc
-	echo 'alias initdev= "bash /home/"$USER"/.initdev/main.c" ' >> ~/.bashrc
-	source ~/.bashrc
-	echo "installation achevé avec succès "
-	else
-	if [ -e .zshrc ]; then
-   	PATH="$PATH:/home/"$USER"/.initdev/"
-	export PATH 
-	else
+	if [ -e .bashrc ]; then # je ne sais pas quel commande est la plus juste car je n'ai pas pu éssayé c'est pour ca que j'ai mis tout ce que j'ai trouvé 
+		PATH="$PATH:/home/"$USER"/.initdev/"
+		export PATH 
+		echo "/home/"$USER"/.initdev/" >> ~/.bashrc
+		echo 'alias initdev= "bash /home/"$USER"/.initdev/main.c" ' >> ~/.bashrc
+		source ~/.bashrc
+		echo "installation achevé avec succès "
+		else
+		if [ -e .zshrc ]; then
+   			PATH="$PATH:/home/"$USER"/.initdev/"
+			export PATH 
+			else
+			PATH="$PATH:/home/"$USER"/.initdev/"
+			export PATH 
+		fi
 	fi
-	fi
-else 
-echo " Un problème est survenu durant l'installation d'initdev , veuillez relancez le progrramme d'installation "
+	echo "la commande initdev installé avec succès"
+	else 
+	echo " Un problème est survenu durant l'installation d'initdev , veuillez relancez le progrramme d'installation "
 fi
